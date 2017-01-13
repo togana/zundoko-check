@@ -1,7 +1,6 @@
 import { fork } from 'redux-saga/effects';
-
-const emptyFunction = () => {};
+import zundokoSaga from './zundoko';
 
 export default function* rootSaga() {
-  yield fork(emptyFunction);
+  yield fork(zundokoSaga);
 }
