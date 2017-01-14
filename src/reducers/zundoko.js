@@ -12,7 +12,7 @@ export default function zundoko(state = initialState, action) {
     case types.DOKO:
       return Object.assign({}, state, { list: [...state.list, 'ドコ'] });
     case types.KIYOSHI:
-      return Object.assign({}, state, { list: [...state.list, 'キ・ヨ・シ'], isMusic: false });
+      return Object.assign({}, state, { list: [...state.list, 'キ・ヨ・シ！'], isMusic: false });
     default:
       return state;
   }
