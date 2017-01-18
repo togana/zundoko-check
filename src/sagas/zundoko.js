@@ -2,13 +2,13 @@ import { delay } from 'redux-saga';
 import { put, call, fork, select } from 'redux-saga/effects';
 import { zun, doko, kiyoshi } from '../actions/zundoko';
 
-const list = [zun, doko];
+export const list = [zun, doko];
 
-function* zunDokoRandom() {
+export function* zunDokoRandom() {
   yield put(list[Math.floor(Math.random() * list.length)]());
 }
 
-function* zunDokoCheck() {
+export function* zunDokoCheck() {
   const checkList = [].concat(yield select(state => state.zundoko.list));
   if (checkList.length < 5) return;
 
@@ -23,7 +23,7 @@ function* zunDokoCheck() {
   }
 }
 
-function* singSong() {
+export function* singSong() {
   while (yield select(state => state.zundoko.isMusic)) {
     yield call(zunDokoRandom);
     yield call(delay, 1000);
