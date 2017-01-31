@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack --release",
     "start": "webpack-dev-server --hot --inline --progress --history-api-fallback",
+    "eslint": "eslint .",
     "test": "jest --coverage",
     "test:watch": "npm test -- --watch"
   },
