@@ -4,7 +4,7 @@
   "description": "zundoko check",
   "main": "src/index.jsx",
   "scripts": {
-    "build": "webpack --release",
+    "build": "webpack -p",
     "start": "webpack-dev-server --hot --inline --progress --history-api-fallback",
     "eslint": "eslint .",
     "test": "jest --coverage",
