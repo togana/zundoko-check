@@ -24,9 +24,11 @@ export function* zunDokoCheck() {
 }
 
 export function* singSong() {
-  while (yield select(state => state.zundoko.isMusic)) {
-    yield call(zunDokoRandom);
-    yield call(delay, 1000);
+  while (true) {
+    if (yield select(state => state.zundoko.isMusic)) {
+      yield call(zunDokoRandom);
+    }
+    yield call(delay, 100);
     yield call(zunDokoCheck);
   }
 }
