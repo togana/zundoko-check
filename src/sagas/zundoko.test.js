@@ -1,4 +1,4 @@
-import { fork } from 'redux-saga/effects';
+import interval from '../utils/sagaEffectInterval';
 // import { zun, doko } from '../actions/zundoko';
 import * as types from '../constants/ActionTypes';
 import zundokoSaga, { zunDokoRandom, singSong } from './zundoko';
@@ -19,6 +19,6 @@ describe('zundoko Saga test', () => {
     const saga = zundokoSaga();
     expect(
       saga.next().value,
-    ).toEqual(fork(singSong));
+    ).toEqual(interval(100, singSong));
   });
 });
