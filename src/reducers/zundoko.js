@@ -1,19 +1,15 @@
-import * as types from '../constants/ActionTypes';
+import { handleActions } from 'redux-actions';
+import * as zundokoAction from '../actions/zundoko';
 
 const initialState = {
   list: [],
   isMusic: true,
 };
 
-export default function zundoko(state = initialState, action) {
-  switch (action.type) {
-    case types.ZUN:
-      return Object.assign({}, state, { list: [...state.list, 'ズン'] });
-    case types.DOKO:
-      return Object.assign({}, state, { list: [...state.list, 'ドコ'] });
-    case types.KIYOSHI:
-      return Object.assign({}, state, { list: [...state.list, 'キ・ヨ・シ！'], isMusic: false });
-    default:
-      return state;
-  }
-}
+const zundoko = handleActions({
+  [zundokoAction.zun]: state => Object.assign({}, state, { list: [...state.list, 'ズン'] }),
+  [zundokoAction.doko]: state => Object.assign({}, state, { list: [...state.list, 'ドコ'] }),
+  [zundokoAction.kiyoshi]: state => Object.assign({}, state, { list: [...state.list, 'キ・ヨ・シ！'], isMusic: false }),
+}, initialState);
+
+export default zundoko;
