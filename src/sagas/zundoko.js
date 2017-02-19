@@ -1,5 +1,5 @@
-import { delay } from 'redux-saga';
-import { put, call, fork, select } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
+import interval from '../utils/sagaEffectInterval';
 import { zun, doko, kiyoshi } from '../actions/zundoko';
 
 export const list = [zun, doko];
@@ -24,15 +24,12 @@ export function* zunDokoCheck() {
 }
 
 export function* singSong() {
-  while (true) {
-    if (yield select(state => state.zundoko.isMusic)) {
-      yield call(zunDokoRandom);
-    }
-    yield call(delay, 100);
-    yield call(zunDokoCheck);
+  yield call(zunDokoCheck);
+  if (yield select(state => state.zundoko.isMusic)) {
+    yield call(zunDokoRandom);
   }
 }
 
 export default function* zundokoSaga() {
-  yield fork(singSong);
+  yield interval(100, singSong);
 }
