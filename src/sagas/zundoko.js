@@ -10,6 +10,8 @@ export function* zunDokoRandom() {
 
 export const getZundokoList = state => state.zundoko.list;
 
+export const getZundokoIsMusic = state => state.zundoko.isMusic;
+
 export function* zunDokoCheck() {
   const checkList = [].concat(yield select(getZundokoList));
   if (checkList.length < 5) return;
@@ -27,7 +29,7 @@ export function* zunDokoCheck() {
 
 export function* singSong() {
   yield call(zunDokoCheck);
-  if (yield select(state => state.zundoko.isMusic)) {
+  if (yield select(getZundokoIsMusic)) {
     yield call(zunDokoRandom);
   }
 }
