@@ -11,17 +11,19 @@ const getState = () => state;
 
 describe('zundoko Saga test', () => {
   it('should zunDokoRandom', () => {
-    const saga = zunDokoRandom();
-    const whichOne = saga.next().value.PUT.action.type;
+    const generator = zunDokoRandom();
+    const next = generator.next(state);
+
+    const whichOne = next.value.PUT.action.type;
     expect(
       whichOne === types.ZUN || whichOne === types.DOKO,
     ).toBeTruthy();
   });
 
-  it('should check Zun Doko phrase', () => {
+  it('should zunDokoCheck', () => {
     const generator = zunDokoCheck(getState);
-    let next = generator.next(state);
 
+    let next = generator.next(state);
     expect(
       next.value,
     ).toEqual(select(getZundokoList));
@@ -32,10 +34,10 @@ describe('zundoko Saga test', () => {
     ).toEqual(put(kiyoshi()));
   });
 
-  it('should sing Zun Doko song', () => {
+  it('should singSong', () => {
     const generator = singSong(getState);
-    let next = generator.next();
 
+    let next = generator.next();
     expect(
       next.value,
     ).toEqual(call(zunDokoCheck));
@@ -52,9 +54,11 @@ describe('zundoko Saga test', () => {
   });
 
   it('should zundokoSaga', () => {
-    const saga = zundokoSaga();
+    const generator = zundokoSaga();
+
+    const next = generator.next();
     expect(
-      saga.next().value,
+      next.value,
     ).toEqual(interval(100, singSong));
   });
 });
