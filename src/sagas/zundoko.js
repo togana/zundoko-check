@@ -8,8 +8,10 @@ export function* zunDokoRandom() {
   yield put(list[Math.floor(Math.random() * list.length)]());
 }
 
+export const getZundokoList = state => state.zundoko.list;
+
 export function* zunDokoCheck() {
-  const checkList = [].concat(yield select(state => state.zundoko.list));
+  const checkList = [].concat(yield select(getZundokoList));
   if (checkList.length < 5) return;
 
   if (
