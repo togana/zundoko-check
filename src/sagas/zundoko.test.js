@@ -1,24 +1,64 @@
+import { put, call, select } from 'redux-saga/effects';
 import interval from '../utils/sagaEffectInterval';
-// import { zun, doko } from '../actions/zundoko';
+import { kiyoshi } from '../actions/zundoko';
+import zundokoSaga, { zunDokoRandom, zunDokoCheck, singSong, getZundokoList, getZundokoIsMusic } from './zundoko';
 import * as types from '../constants/ActionTypes';
-import zundokoSaga, { zunDokoRandom, singSong } from './zundoko';
+
+const list = ['ズン', 'ズン', 'ズン', 'ズン', 'ドコ'];
+const isMusic = true;
+const state = { zundoko: { list, isMusic } };
+const getState = () => state;
 
 describe('zundoko Saga test', () => {
   it('should zunDokoRandom', () => {
-    const saga = zunDokoRandom();
-    const whichOne = saga.next().value.PUT.action.type;
+    const generator = zunDokoRandom();
+    const next = generator.next(state);
+
+    const whichOne = next.value.PUT.action.type;
     expect(
       whichOne === types.ZUN || whichOne === types.DOKO,
     ).toBeTruthy();
   });
 
-  // TODO: should zunDokoCheck
-  // TODO: should singSong
+  it('should zunDokoCheck', () => {
+    const generator = zunDokoCheck(getState);
+
+    let next = generator.next(state);
+    expect(
+      next.value,
+    ).toEqual(select(getZundokoList));
+
+    next = generator.next(list);
+    expect(
+      next.value,
+    ).toEqual(put(kiyoshi()));
+  });
+
+  it('should singSong', () => {
+    const generator = singSong(getState);
+
+    let next = generator.next();
+    expect(
+      next.value,
+    ).toEqual(call(zunDokoCheck));
+
+    next = generator.next();
+    expect(
+      next.value,
+    ).toEqual(select(getZundokoIsMusic));
+
+    next = generator.next(isMusic);
+    expect(
+      next.value,
+    ).toEqual(call(zunDokoRandom));
+  });
 
   it('should zundokoSaga', () => {
-    const saga = zundokoSaga();
+    const generator = zundokoSaga();
+
+    const next = generator.next();
     expect(
-      saga.next().value,
+      next.value,
     ).toEqual(interval(100, singSong));
   });
 });
